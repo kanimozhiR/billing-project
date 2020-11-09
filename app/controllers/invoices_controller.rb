@@ -1,5 +1,5 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: [:show, :edit, :update, :destroy]
+  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :bill_generated]
 
   # GET /invoices
   # GET /invoices.json
@@ -15,7 +15,7 @@ class InvoicesController < ApplicationController
   # GET /invoices/new
   def new
     @invoice = Invoice.new
-    @invoice.invoice_details.build
+   3.times{@invoice.invoice_details.build}
   end
 
   # GET /invoices/1/edit
@@ -29,7 +29,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.save
-        format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }
+        format.html { redirect_to bill_generated_path(@invoice), notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :created, location: @invoice }
       else
         format.html { render :new }
@@ -62,6 +62,10 @@ class InvoicesController < ApplicationController
     end
   end
 
+def bill_generated
+        InvoiceMailer.with(invoice: @invoice).bill_generated_email.deliver_now
+
+end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_invoice

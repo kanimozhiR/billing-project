@@ -1,0 +1,39 @@
+<b>Customer Email </b> <%= @invoice.customer_email%><br><br>
+
+<b>Bill Section</b>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Product Id</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Purchase Price</th>
+      <th>Tax % for Item</th>
+      <th>Tax payable for Item</th>
+      <th>Total price of the Item</th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+   <% @invoice.invoice_details.each do |invoice| %>
+      <tr>
+        <td><%= invoice.product_id %></td>
+        <td><%= invoice.price %></td>
+        <td><%= invoice.quantity %></td>
+        <td><%= invoice.purchase_price %></td>
+        <td><%= invoice.item_tax*100 %> %</td>
+        <td><%= invoice.tax_payable %></td>
+        <td><%= invoice.total_price%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<spam>
+<b>Total Price without tax: <%= @invoice.total_purchase_price%><br>
+Total tax payable: <%= @invoice.total_tax_price%><br>
+Net price of the purchase_price <%= @invoice.net_price%><br>
+Rounded down value of the purchased price: <%= @invoice.net_price.round%><br>
+customer paid Amount <%= @invoice.customer_paid%><br>
+Balance payable to the customer: <%=(@invoice.customer_paid-@invoice.net_price).round %></b></spam>
+
